@@ -1,9 +1,8 @@
 package models
 
 type User struct {
-	Id       int
-	Username string
-	Projects []Project
+	Id       int    `json:"id"`
+	Username string `json:"username"`
 }
 
 type Project struct {
@@ -11,7 +10,6 @@ type Project struct {
 	Name       string
 	Desciption string
 	LikesCount int
-	Comments   []Comment
 }
 
 type Comment struct {
