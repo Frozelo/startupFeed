@@ -1,38 +1,16 @@
 package main
 
 import (
-	"fmt"
+	"net/http"
+
+	"github.com/go-chi/chi/v5"
+
+	"github.com/Frozelo/startupFeed/internal/handlers"
 )
 
-type User struct {
-	Id       int
-	Username string
-	Projects []Project
-}
-
-type Project struct {
-	Id         int
-	Name       string
-	Desciption string
-	LikesCount int
-	Comments   []Comment
-}
-
-type Comment struct {
-	Id   int
-	User User
-}
-
 func main() {
-	newUser := User{
-		Id:       0,
-		Username: "Frozelo",
-		Projects: []Project{},
-	}
-	newComment := Comment{
-		Id:   0,
-		User: newUser,
-	}
-	fmt.Printf("the user info is %v", newUser)
-	fmt.Printf("the comment info is %v", newComment)
+	r := chi.NewRouter()
+	r.Get("/health", handlers.HealthCheckHandler)
+
+	http.ListenAndServe(":8080", r)
 }
