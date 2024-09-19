@@ -44,5 +44,7 @@ func New(connString string) (*Postgres, error) {
 }
 
 func (s *Postgres) Close() {
-	s.Conn.Close(context.Background())
+	if err := s.Conn.Close(context.Background()); err != nil {
+		log.Printf("Postgres - Close: %s", err)
+	}
 }

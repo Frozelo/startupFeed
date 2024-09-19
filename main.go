@@ -16,6 +16,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.Close()
 	projectRepo := repo.NewProjectRepo(db.Conn)
 	projectService := services.NewProjectService(projectRepo)
 	handler := handlers.New(projectService)
@@ -25,9 +26,14 @@ func main() {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
-	r.Get("/projects/{projectId}", handler.FindById)
-	r.Post("/projects", handler.Create)
-	r.Post("/projects/{projectId}", handler.SetLike)
+	apiRouter := chi.NewRouter()
+	apiRouter.Route("/projects", func(r chi.Router) {
+		r.Get("/{projectId}", handler.FindById)
+	})
 
-	http.ListenAndServe(":8080", r)
+	r.Mount("/api", apiRouter)
+
+	if err := http.ListenAndServe(":8080", r); err != nil {
+		log.Fatal(err)
+	}
 }
