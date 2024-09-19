@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3472ba0-e65e-43d7-88c5-1cb8277bc51a" name="Changes" comment="handler bug fix">
+    <list default="true" id="e3472ba0-e65e-43d7-88c5-1cb8277bc51a" name="Changes" comment="add custom httpwriter">
+      <change afterPath="$PROJECT_DIR$/internal/storage/redis.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/storage/psql.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/storage/psql.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/services/project.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/services/project.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -118,7 +121,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/internal/services/project.go</url>
-          <line>34</line>
+          <line>74</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
