@@ -44,6 +44,7 @@ func (h *Handlers) FindById(w http.ResponseWriter, r *http.Request) {
 	projectId, err := strconv.ParseInt(projectIdStr, 10, 64)
 	if err != nil {
 		httpwriter.ErrorResponse(w, http.StatusBadRequest, err, headers)
+		return
 	}
 	project, err := h.projectService.FindByID(r.Context(), projectId)
 	if err != nil {
@@ -53,6 +54,7 @@ func (h *Handlers) FindById(w http.ResponseWriter, r *http.Request) {
 			err,
 			headers,
 		)
+		return
 	}
 	httpwriter.SuccessResponse(w, http.StatusOK, project, headers)
 }
