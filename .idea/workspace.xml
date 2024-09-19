@@ -4,29 +4,14 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3472ba0-e65e-43d7-88c5-1cb8277bc51a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/4a7fe97d-11d3-4004-8214-96396e33ed92.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/4a7fe97d-11d3-4004-8214-96396e33ed92/storage_v2/_src_/database/startupfeed.m6GLyg.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/4a7fe97d-11d3-4004-8214-96396e33ed92/storage_v2/_src_/database/startupfeed.m6GLyg/schema/public.abK9xQ.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.ideae/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.ideae/startupFeed.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.ideae/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/handlers/handlers.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/models/models.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/repo/project.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/services/project.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/storage/psql.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.ideae/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/handlers/handler.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/models/model.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/repo/memmory.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/services/user.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+    <list default="true" id="e3472ba0-e65e-43d7-88c5-1cb8277bc51a" name="Changes" comment="add custom httpwriter">
+      <change afterPath="$PROJECT_DIR$/pkg/http/httpwriter.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4a7fe97d-11d3-4004-8214-96396e33ed92.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4a7fe97d-11d3-4004-8214-96396e33ed92.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4a7fe97d-11d3-4004-8214-96396e33ed92/storage_v2/_src_/database/startupfeed.m6GLyg.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4a7fe97d-11d3-4004-8214-96396e33ed92/storage_v2/_src_/database/startupfeed.m6GLyg/schema/public.abK9xQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/handlers/handlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/handlers/handlers.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,14 +25,14 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" url="file://$USER_HOME$/go/pkg/mod/golang.org/toolchain@v0.0.1-go1.22.5.darwin-arm64" />
+  <component name="GOROOT" url="file://$USER_HOME$/work/pkg/mod/golang.org/toolchain@v0.0.1-go1.22.5.linux-amd64" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 7
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2mHGXpDThiymBr7Yy4xVzzLTZ0I" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -60,11 +45,12 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.automatic.dependencies.download": "true",
     "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
     "git-widget-placeholder": "main",
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "/Users/ivansizov",
+    "last_opened_file_path": "/home/ivan/GolandProjects/startupFeed",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
@@ -81,7 +67,7 @@
       <module name="startupFeed" />
       <working_directory value="$PROJECT_DIR$" />
       <go_parameters value="-i" />
-      <kind />
+      <kind value="FILE" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
@@ -99,7 +85,7 @@
       <module name="startupFeed" />
       <working_directory value="$PROJECT_DIR$" />
       <go_parameters value="-i" />
-      <kind />
+      <kind value="DIRECTORY" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
@@ -122,6 +108,10 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add custom httpwriter" />
+    <option name="LAST_COMMIT_MESSAGE" value="add custom httpwriter" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

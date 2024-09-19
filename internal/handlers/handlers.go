@@ -3,10 +3,13 @@ package handlers
 import (
 	"context"
 	"encoding/json"
-	"github.com/Frozelo/startupFeed/internal/models"
-	"github.com/go-chi/chi/v5"
 	"net/http"
 	"strconv"
+
+	"github.com/go-chi/chi/v5"
+
+	"github.com/Frozelo/startupFeed/internal/models"
+	httpwriter "github.com/Frozelo/startupFeed/pkg/http"
 )
 
 type ProjectService interface {
@@ -33,24 +36,25 @@ func (h *Handlers) Create(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-
 }
 
 func (h *Handlers) FindById(w http.ResponseWriter, r *http.Request) {
+	var headers map[string]string
 	projectIdStr := chi.URLParam(r, "projectId")
 	projectId, err := strconv.ParseInt(projectIdStr, 10, 64)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		httpwriter.ErrorResponse(w, http.StatusBadRequest, err, headers)
 	}
 	project, err := h.projectService.FindByID(r.Context(), projectId)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		httpwriter.ErrorResponse(
+			w,
+			http.StatusInternalServerError,
+			err,
+			headers,
+		)
 	}
-	w.Header().Set("Content-Type", "application/json")
-	if err := json.NewEncoder(w).Encode(project); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-
+	httpwriter.SuccessResponse(w, http.StatusOK, project, headers)
 }
 
 func (h *Handlers) SetLike(w http.ResponseWriter, r *http.Request) {
