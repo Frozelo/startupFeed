@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3472ba0-e65e-43d7-88c5-1cb8277bc51a" name="Changes" comment="add custom httpwriter">
-      <change afterPath="$PROJECT_DIR$/internal/storage/redis.go" afterDir="false" />
+    <list default="true" id="e3472ba0-e65e-43d7-88c5-1cb8277bc51a" name="Changes" comment="small fixes, and test routes grouping">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/services/project.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/services/project.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/storage/psql.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/storage/psql.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,9 +20,12 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" url="file://$USER_HOME$/work/pkg/mod/golang.org/toolchain@v0.0.1-go1.22.5.linux-amd64" />
+  <component name="GOROOT" url="file://$USER_HOME$/go/pkg/mod/golang.org/toolchain@v0.0.1-go1.22.5.darwin-arm64" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="true" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -49,7 +48,7 @@
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/ivan/GolandProjects/startupFeed&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/ivansizov&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
@@ -111,7 +110,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add custom httpwriter" />
     <MESSAGE value="handler bug fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="handler bug fix" />
+    <MESSAGE value="small fixes, and test routes grouping" />
+    <option name="LAST_COMMIT_MESSAGE" value="small fixes, and test routes grouping" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
@@ -121,7 +121,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/internal/services/project.go</url>
-          <line>74</line>
+          <line>34</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>

@@ -16,7 +16,7 @@ import (
 func main() {
 	// TODO Implement config logic
 	db, err := storage.New(
-		"",
+		"postgresql://localhost:5432/startupfeed",
 	)
 	if err != nil {
 		log.Fatal(err)
@@ -39,7 +39,8 @@ func main() {
 	apiRouter.Route("/projects", func(r chi.Router) {
 		r.Get("/{projectId}", handler.FindById)
 		r.Post("/", handler.Create)
-		r.Post("/{projectId}", handler.SetLike)
+		r.Put("/{projectId}", handler.SetLike)
+		r.Put("/{projectId}/update", handler.SetDescription)
 	})
 
 	r.Mount("/api", apiRouter)

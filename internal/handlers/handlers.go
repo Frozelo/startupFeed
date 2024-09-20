@@ -8,6 +8,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
+	"github.com/Frozelo/startupFeed/internal/dto"
 	"github.com/Frozelo/startupFeed/internal/models"
 	httpwriter "github.com/Frozelo/startupFeed/pkg/http"
 )
@@ -16,6 +17,11 @@ type ProjectService interface {
 	Create(ctx context.Context, project *models.Project) error
 	FindByID(ctx context.Context, id int64) (*models.Project, error)
 	SetLike(ctx context.Context, projectId int64) error
+	SetDescription(
+		ctx context.Context,
+		projectId int64,
+		updateProjectDto *dto.UpdateProjectDTO,
+	) error
 }
 
 type Handlers struct {
@@ -70,4 +76,26 @@ func (h *Handlers) SetLike(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
+}
+
+func (h *Handlers) SetDescription(w http.ResponseWriter, r *http.Request) {
+	var headers map[string]string
+	var updateProjectDto *dto.UpdateProjectDTO
+	if err := json.NewDecoder(r.Body).Decode(&updateProjectDto); err != nil {
+		httpwriter.ErrorResponse(w, http.StatusBadRequest, err, headers)
+	}
+	projectIdStr := chi.URLParam(r, "projectId")
+	projectId, err := strconv.ParseInt(projectIdStr, 10, 64)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+	if err := h.projectService.SetDescription(r.Context(), projectId, updateProjectDto); err != nil {
+		httpwriter.ErrorResponse(
+			w,
+			http.StatusInternalServerError,
+			err,
+			headers,
+		)
+	}
+	httpwriter.SuccessResponse(w, http.StatusOK, "ok", headers)
 }

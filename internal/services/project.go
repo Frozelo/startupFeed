@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/Frozelo/startupFeed/internal/dto"
 	"github.com/Frozelo/startupFeed/internal/models"
 )
 
@@ -15,6 +16,7 @@ type ProjectRepo interface {
 	Create(ctx context.Context, project *models.Project) error
 	FindByID(ctx context.Context, id int64) (*models.Project, error)
 	UpdateLikes(ctx context.Context, project *models.Project) error
+	UpdateDescription(ctx context.Context, project *models.Project) error
 }
 
 type Cache interface {
@@ -90,6 +92,30 @@ func (s *ProjectService) SetLike(ctx context.Context, projectId int64) error {
 		s.cache.Set(cacheKey, jsonData, 10*time.Minute)
 	}
 	log.Println("New cache set!")
+
+	return nil
+}
+
+func (s *ProjectService) SetDescription(
+	ctx context.Context,
+	projectId int64,
+	updateProjectDto *dto.UpdateProjectDTO,
+) error {
+	project, err := s.projectRepo.FindByID(ctx, projectId)
+	if err != nil {
+		return err
+	}
+	if project == nil {
+		return errors.New("projects not found")
+	}
+
+	log.Printf("dto project Description is %s", updateProjectDto.Description)
+	project.Description = updateProjectDto.Description
+
+	// TODO caching invalidation
+	if err := s.projectRepo.UpdateDescription(ctx, project); err != nil {
+		return err
+	}
 
 	return nil
 }

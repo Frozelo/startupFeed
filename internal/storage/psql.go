@@ -39,7 +39,7 @@ func New(connString string) (*Postgres, error) {
 	if err != nil {
 		return nil, fmt.Errorf("postgres - New - connAttempts == 0: %w", err)
 	}
-
+	
 	return pg, nil
 }
 
