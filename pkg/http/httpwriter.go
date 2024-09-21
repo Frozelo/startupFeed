@@ -5,11 +5,7 @@ import (
 	"net/http"
 )
 
-type HTTTPError struct {
-	Code    int    `json:"code"`
-	Message string `json:"message"`
-}
-
+// Стандартные сообщения об ошибках
 const (
 	ErrorMessageNotFound       = "Resource not found"
 	ErrorMessageInternalServer = "Internal Server Error"
@@ -18,56 +14,86 @@ const (
 	ErrorMessageForbidden      = "Forbidden"
 )
 
-type ResponseCfg struct {
-	Code    int
-	Data    any
-	Headers map[string]string
-	Err     error
+// Структура для конфигурации ошибок с подробной информацией
+type ErrorResponse struct {
+	Code    int    `json:"code"`              // Код ошибки
+	Message string `json:"message"`           // Основное сообщение об ошибке
+	Details string `json:"details,omitempty"` // Дополнительные подробности об ошибке
 }
 
-func WriteJsonResponse(w http.ResponseWriter, config *ResponseCfg) {
+// Структура для успешного ответа
+type SuccessResponse struct {
+	Code int `json:"code"`
+	Data any `json:"data,omitempty"`
+}
+
+// Структура для отправки ответа
+type Response struct {
+	Code    int               `json:"code"`
+	Data    any               `json:"data,omitempty"`
+	Message string            `json:"message,omitempty"`
+	Details string            `json:"details,omitempty"`
+	Headers map[string]string `json:"-"`
+}
+
+// Функция для отправки JSON-ответа
+func WriteJSONResponse(w http.ResponseWriter, config *Response) {
+	// Устанавливаем заголовки
 	w.Header().Set("Content-Type", "application/json")
 	for key, value := range config.Headers {
-		w.Header().Add(key, value)
+		w.Header().Set(key, value)
 	}
 
-	if config.Err != nil {
-		WriteError(w, config)
-		return
-	}
+	// Устанавливаем код статуса
 	w.WriteHeader(config.Code)
-	if err := json.NewEncoder(w).Encode(config.Data); err != nil {
+
+	// Пишем JSON-ответ
+	if err := json.NewEncoder(w).Encode(config); err != nil {
+		// Если возникла ошибка сериализации, отправляем внутреннюю ошибку сервера
 		http.Error(
 			w,
 			ErrorMessageInternalServer,
 			http.StatusInternalServerError,
 		)
-		return
 	}
 }
 
-func WriteError(w http.ResponseWriter, config *ResponseCfg) {
-	w.Header().Set("Content-Type", "application/json")
-	for key, value := range config.Headers {
-		w.Header().Add(key, value)
+// Функция для успешного ответа
+func Success(
+	w http.ResponseWriter,
+	code int,
+	data any,
+	headers map[string]string,
+) {
+	response := &Response{
+		Code:    code,
+		Data:    data,
+		Headers: headers,
 	}
-
-	errorData := HTTTPError{
-		Code:    config.Code,
-		Message: getErrorMessage(config.Code),
-	}
-
-	w.WriteHeader(config.Code)
-	if err := json.NewEncoder(w).Encode(errorData); err != nil {
-		http.Error(
-			w,
-			ErrorMessageInternalServer,
-			http.StatusInternalServerError,
-		)
-		return
-	}
+	WriteJSONResponse(w, response)
 }
 
+// Функция для отправки ошибки
+func Error(
+	w http.ResponseWriter,
+	code int,
+	err error,
+	details string,
+	headers map[string]string,
+) {
+	response := &Response{
+		Code:    code,
+		Message: getErrorMessage(code),
+		Details: details,
+		Headers: headers,
+	}
+	if err != nil {
+		response.Message = err.Error() // Используем сообщение из самой ошибки
+	}
+	WriteJSONResponse(w, response)
+}
+
+// Получаем стандартное сообщение об ошибке по коду
 func getErrorMessage(code int) string {
 	switch code {
 	case http.StatusNotFound:
@@ -81,30 +107,4 @@ func getErrorMessage(code int) string {
 	default:
 		return ErrorMessageInternalServer
 	}
-}
-
-func SuccessResponse(
-	w http.ResponseWriter,
-	code int,
-	data any,
-	headers map[string]string,
-) {
-	WriteJsonResponse(w, &ResponseCfg{
-		Code:    code,
-		Data:    data,
-		Headers: headers,
-	})
-}
-
-func ErrorResponse(
-	w http.ResponseWriter,
-	code int,
-	err error,
-	headers map[string]string,
-) {
-	WriteError(w, &ResponseCfg{
-		Code:    code,
-		Err:     err,
-		Headers: headers,
-	})
 }

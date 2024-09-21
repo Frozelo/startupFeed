@@ -63,10 +63,12 @@ func (s *ProjectService) FindByID(
 	}
 	log.Println("found it in database!")
 
-	if project != nil {
-		if jsonData, err := json.Marshal(project); err == nil {
-			s.cache.Set(cacheKey, jsonData, 10*time.Minute)
-		}
+	if project == nil {
+		return nil, errors.New("project not found")
+	}
+
+	if jsonData, err := json.Marshal(project); err == nil {
+		s.cache.Set(cacheKey, jsonData, 10*time.Minute)
 	}
 
 	return project, nil

@@ -32,70 +32,134 @@ func New(projectService ProjectService) *Handlers {
 	return &Handlers{projectService: projectService}
 }
 
+// Обработчик создания проекта
 func (h *Handlers) Create(w http.ResponseWriter, r *http.Request) {
-	var newProject *models.Project
+	var newProject models.Project
 	if err := json.NewDecoder(r.Body).Decode(&newProject); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-	}
-	if err := h.projectService.Create(r.Context(), newProject); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-}
-
-func (h *Handlers) FindById(w http.ResponseWriter, r *http.Request) {
-	var headers map[string]string
-	projectIdStr := chi.URLParam(r, "projectId")
-	projectId, err := strconv.ParseInt(projectIdStr, 10, 64)
-	if err != nil {
-		httpwriter.ErrorResponse(w, http.StatusBadRequest, err, headers)
-		return
-	}
-	project, err := h.projectService.FindByID(r.Context(), projectId)
-	if err != nil {
-		httpwriter.ErrorResponse(
+		httpwriter.Error(
 			w,
-			http.StatusInternalServerError,
+			http.StatusBadRequest,
 			err,
-			headers,
+			"Invalid request payload",
+			nil,
 		)
 		return
 	}
-	httpwriter.SuccessResponse(w, http.StatusOK, project, headers)
+
+	if err := h.projectService.Create(r.Context(), &newProject); err != nil {
+		httpwriter.Error(
+			w,
+			http.StatusInternalServerError,
+			err,
+			"Failed to create project",
+			nil,
+		)
+		return
+	}
+
+	httpwriter.Success(
+		w,
+		http.StatusCreated,
+		"Project created successfully",
+		nil,
+	)
 }
 
+// Обработчик поиска проекта по ID
+func (h *Handlers) FindById(w http.ResponseWriter, r *http.Request) {
+	projectIdStr := chi.URLParam(r, "projectId")
+	projectId, err := strconv.ParseInt(projectIdStr, 10, 64)
+	if err != nil {
+		httpwriter.Error(
+			w,
+			http.StatusBadRequest,
+			err,
+			"Invalid project ID",
+			nil,
+		)
+		return
+	}
+
+	project, err := h.projectService.FindByID(r.Context(), projectId)
+	if err != nil {
+		httpwriter.Error(w, http.StatusNotFound, err, "Project not found", nil)
+		return
+	}
+
+	httpwriter.Success(w, http.StatusOK, project, nil)
+}
+
+// Обработчик для лайков проекта
 func (h *Handlers) SetLike(w http.ResponseWriter, r *http.Request) {
 	projectIdStr := chi.URLParam(r, "projectId")
 	projectId, err := strconv.ParseInt(projectIdStr, 10, 64)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		httpwriter.Error(
+			w,
+			http.StatusBadRequest,
+			err,
+			"Invalid project ID",
+			nil,
+		)
+		return
 	}
-	if err := h.projectService.SetLike(r.Context(), projectId); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-}
 
-func (h *Handlers) SetDescription(w http.ResponseWriter, r *http.Request) {
-	var headers map[string]string
-	var updateProjectDto *dto.UpdateProjectDTO
-	if err := json.NewDecoder(r.Body).Decode(&updateProjectDto); err != nil {
-		httpwriter.ErrorResponse(w, http.StatusBadRequest, err, headers)
-	}
-	projectIdStr := chi.URLParam(r, "projectId")
-	projectId, err := strconv.ParseInt(projectIdStr, 10, 64)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-	}
-	if err := h.projectService.SetDescription(r.Context(), projectId, updateProjectDto); err != nil {
-		httpwriter.ErrorResponse(
+	if err := h.projectService.SetLike(r.Context(), projectId); err != nil {
+		httpwriter.Error(
 			w,
 			http.StatusInternalServerError,
 			err,
-			headers,
+			"Failed to like project",
+			nil,
 		)
+		return
 	}
-	httpwriter.SuccessResponse(w, http.StatusOK, "ok", headers)
+
+	httpwriter.Success(w, http.StatusOK, "Project liked successfully", nil)
+}
+
+// Обработчик обновления описания проекта
+func (h *Handlers) SetDescription(w http.ResponseWriter, r *http.Request) {
+	var updateProjectDto dto.UpdateProjectDTO
+	if err := json.NewDecoder(r.Body).Decode(&updateProjectDto); err != nil {
+		httpwriter.Error(
+			w,
+			http.StatusBadRequest,
+			err,
+			"Invalid request payload",
+			nil,
+		)
+		return
+	}
+
+	projectIdStr := chi.URLParam(r, "projectId")
+	projectId, err := strconv.ParseInt(projectIdStr, 10, 64)
+	if err != nil {
+		httpwriter.Error(
+			w,
+			http.StatusBadRequest,
+			err,
+			"Invalid project ID",
+			nil,
+		)
+		return
+	}
+
+	if err := h.projectService.SetDescription(r.Context(), projectId, &updateProjectDto); err != nil {
+		httpwriter.Error(
+			w,
+			http.StatusInternalServerError,
+			err,
+			"Failed to update project description",
+			nil,
+		)
+		return
+	}
+
+	httpwriter.Success(
+		w,
+		http.StatusOK,
+		"Project description updated successfully",
+		nil,
+	)
 }
