@@ -24,11 +24,14 @@ func main() {
 	defer db.Close()
 
 	redisClient := storage.NewRedisClient()
-	log.Println("reddis successfully initialized", redisClient)
+	log.Println("redis successfully initialized", redisClient)
 
 	projectRepo := repo.NewProjectRepo(db.Conn)
 	projectService := services.NewProjectService(projectRepo, redisClient)
-	handler := handlers.New(projectService)
+
+	userRepo := repo.NewUserRepo(db.Conn)
+	userService := services.NewUserSerice(userRepo)
+	handler := handlers.New(userService, projectService)
 
 	r := chi.NewRouter()
 	r.Use(middleware.RequestID)
@@ -36,11 +39,13 @@ func main() {
 	r.Use(middleware.Recoverer)
 
 	apiRouter := chi.NewRouter()
-	apiRouter.Route("/projects", func(r chi.Router) {
-		r.Get("/{projectId}", handler.FindById)
-		r.Post("/", handler.Create)
-		r.Put("/{projectId}", handler.SetLike)
-		r.Put("/{projectId}/update", handler.SetDescription)
+	apiRouter.Route("/v1", func(r chi.Router) {
+		r.Get("/projects/{projectId}", handler.FindById)
+		r.Post("/projects", handler.Create)
+		r.Put("/projects/{projectId}", handler.SetLike)
+		r.Put("/projects/{projectId}/update", handler.SetDescription)
+
+		r.Post("/users/register", handler.Register)
 	})
 
 	r.Mount("/api", apiRouter)

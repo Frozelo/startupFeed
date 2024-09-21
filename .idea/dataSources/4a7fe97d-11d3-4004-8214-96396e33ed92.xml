@@ -3,9 +3,17 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.52">
     <root id="1">
       <DateStyle>mdy</DateStyle>
-      <IntrospectionStateNumber>824</IntrospectionStateNumber>
+      <Grants>1||-9223372036854775808|c|G
+1||10|c|G
+1||10|C|G
+1||10|T|G
+4||-9223372036854775808|c|G
+4||10|c|G
+4||10|C|G
+4||10|T|G</Grants>
+      <IntrospectionStateNumber>855</IntrospectionStateNumber>
       <ServerVersion>16.4</ServerVersion>
-      <StartupTime>1726156747</StartupTime>
+      <StartupTime>1726902820</StartupTime>
       <TimeZones>true ACDT
 true ACSST
 false ACST
@@ -800,7 +808,7 @@ false Zulu
 13520||10|C|G
 13520||-9223372036854775808|U|G
 13520||10|U|G</Grants>
-      <IntrospectionStateNumber>824</IntrospectionStateNumber>
+      <IntrospectionStateNumber>855</IntrospectionStateNumber>
       <ObjectId>16753</ObjectId>
       <OwnerName>ivansizov</OwnerName>
     </database>
@@ -821,52 +829,7 @@ false Zulu
       <ObjectId>16423</ObjectId>
       <OwnerName>ivansizov</OwnerName>
     </database>
-    <role id="7" parent="1" name="pg_database_owner">
-      <ObjectId>6171</ObjectId>
-    </role>
-    <role id="8" parent="1" name="pg_read_all_data">
-      <ObjectId>6181</ObjectId>
-    </role>
-    <role id="9" parent="1" name="pg_write_all_data">
-      <ObjectId>6182</ObjectId>
-    </role>
-    <role id="10" parent="1" name="pg_monitor">
-      <ObjectId>3373</ObjectId>
-      <RoleGrants>3374
-3375
-3377</RoleGrants>
-    </role>
-    <role id="11" parent="1" name="pg_read_all_settings">
-      <ObjectId>3374</ObjectId>
-    </role>
-    <role id="12" parent="1" name="pg_read_all_stats">
-      <ObjectId>3375</ObjectId>
-    </role>
-    <role id="13" parent="1" name="pg_stat_scan_tables">
-      <ObjectId>3377</ObjectId>
-    </role>
-    <role id="14" parent="1" name="pg_read_server_files">
-      <ObjectId>4569</ObjectId>
-    </role>
-    <role id="15" parent="1" name="pg_write_server_files">
-      <ObjectId>4570</ObjectId>
-    </role>
-    <role id="16" parent="1" name="pg_execute_server_program">
-      <ObjectId>4571</ObjectId>
-    </role>
-    <role id="17" parent="1" name="pg_signal_backend">
-      <ObjectId>4200</ObjectId>
-    </role>
-    <role id="18" parent="1" name="pg_checkpoint">
-      <ObjectId>4544</ObjectId>
-    </role>
-    <role id="19" parent="1" name="pg_use_reserved_connections">
-      <ObjectId>4550</ObjectId>
-    </role>
-    <role id="20" parent="1" name="pg_create_subscription">
-      <ObjectId>6304</ObjectId>
-    </role>
-    <role id="21" parent="1" name="ivansizov">
+    <role id="7" parent="1" name="ivansizov">
       <BypassRls>1</BypassRls>
       <CanLogin>1</CanLogin>
       <CreateDb>1</CreateDb>
@@ -874,6 +837,51 @@ false Zulu
       <ObjectId>10</ObjectId>
       <Replication>1</Replication>
       <SuperRole>1</SuperRole>
+    </role>
+    <role id="8" parent="1" name="pg_checkpoint">
+      <ObjectId>4544</ObjectId>
+    </role>
+    <role id="9" parent="1" name="pg_create_subscription">
+      <ObjectId>6304</ObjectId>
+    </role>
+    <role id="10" parent="1" name="pg_database_owner">
+      <ObjectId>6171</ObjectId>
+    </role>
+    <role id="11" parent="1" name="pg_execute_server_program">
+      <ObjectId>4571</ObjectId>
+    </role>
+    <role id="12" parent="1" name="pg_monitor">
+      <ObjectId>3373</ObjectId>
+      <RoleGrants>3374
+3375
+3377</RoleGrants>
+    </role>
+    <role id="13" parent="1" name="pg_read_all_data">
+      <ObjectId>6181</ObjectId>
+    </role>
+    <role id="14" parent="1" name="pg_read_all_settings">
+      <ObjectId>3374</ObjectId>
+    </role>
+    <role id="15" parent="1" name="pg_read_all_stats">
+      <ObjectId>3375</ObjectId>
+    </role>
+    <role id="16" parent="1" name="pg_read_server_files">
+      <ObjectId>4569</ObjectId>
+    </role>
+    <role id="17" parent="1" name="pg_signal_backend">
+      <ObjectId>4200</ObjectId>
+    </role>
+    <role id="18" parent="1" name="pg_stat_scan_tables">
+      <ObjectId>3377</ObjectId>
+    </role>
+    <role id="19" parent="1" name="pg_use_reserved_connections">
+      <ObjectId>4550</ObjectId>
+    </role>
+    <role id="20" parent="1" name="pg_write_all_data">
+      <ObjectId>6182</ObjectId>
+    </role>
+    <role id="21" parent="1" name="pg_write_server_files">
+      <ObjectId>4570</ObjectId>
     </role>
     <role id="22" parent="1" name="test">
       <ObjectId>16388</ObjectId>
@@ -4239,8 +4247,8 @@ false Zulu
     <schema id="268" parent="2" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>824</IntrospectionStateNumber>
-      <LastIntrospectionLocalTimestamp>2024-09-19.08:38:51</LastIntrospectionLocalTimestamp>
+      <IntrospectionStateNumber>855</IntrospectionStateNumber>
+      <LastIntrospectionLocalTimestamp>2024-09-21.19:25:24</LastIntrospectionLocalTimestamp>
       <ObjectId>2200</ObjectId>
       <StateNumber>523</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>
@@ -4297,37 +4305,31 @@ false Zulu
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>ivansizov</OwnerName>
     </table>
-    <table id="276" parent="268" name="project_authors">
-      <ObjectId>16794</ObjectId>
-      <StateNumber>811</StateNumber>
-      <AccessMethodId>2</AccessMethodId>
-      <OwnerName>ivansizov</OwnerName>
-    </table>
-    <table id="277" parent="268" name="project_categories">
+    <table id="276" parent="268" name="project_categories">
       <ObjectId>16779</ObjectId>
       <StateNumber>810</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>ivansizov</OwnerName>
     </table>
-    <table id="278" parent="268" name="projects">
+    <table id="277" parent="268" name="projects">
       <ObjectId>16771</ObjectId>
       <StateNumber>810</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>ivansizov</OwnerName>
     </table>
-    <table id="279" parent="268" name="users">
+    <table id="278" parent="268" name="users">
       <ObjectId>16755</ObjectId>
       <StateNumber>811</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>ivansizov</OwnerName>
     </table>
-    <table id="280" parent="268" name="votes">
+    <table id="279" parent="268" name="votes">
       <ObjectId>16828</ObjectId>
       <StateNumber>813</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>ivansizov</OwnerName>
     </table>
-    <column id="281" parent="274" name="id">
+    <column id="280" parent="274" name="id">
       <DasType>bigint|0s</DasType>
       <IdentityKind>by-default</IdentityKind>
       <NotNull>1</NotNull>
@@ -4336,14 +4338,14 @@ false Zulu
       <SequenceId>16764</SequenceId>
       <TypeId>20</TypeId>
     </column>
-    <column id="282" parent="274" name="name">
+    <column id="281" parent="274" name="name">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>808</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <index id="283" parent="274" name="categories_pkey">
+    <index id="282" parent="274" name="categories_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16768</ObjectId>
@@ -4352,14 +4354,14 @@ false Zulu
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="284" parent="274" name="categories_pkey">
+    <key id="283" parent="274" name="categories_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16769</ObjectId>
       <Primary>1</Primary>
       <StateNumber>808</StateNumber>
       <UnderlyingIndexId>16768</UnderlyingIndexId>
     </key>
-    <column id="285" parent="275" name="id">
+    <column id="284" parent="275" name="id">
       <DasType>bigint|0s</DasType>
       <IdentityKind>by-default</IdentityKind>
       <NotNull>1</NotNull>
@@ -4368,33 +4370,33 @@ false Zulu
       <SequenceId>16809</SequenceId>
       <TypeId>20</TypeId>
     </column>
-    <column id="286" parent="275" name="user_id">
+    <column id="285" parent="275" name="user_id">
       <DasType>bigint|0s</DasType>
       <Position>2</Position>
       <StateNumber>812</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <column id="287" parent="275" name="project_id">
+    <column id="286" parent="275" name="project_id">
       <DasType>bigint|0s</DasType>
       <Position>3</Position>
       <StateNumber>812</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <column id="288" parent="275" name="text">
+    <column id="287" parent="275" name="text">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>812</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="289" parent="275" name="create_date">
+    <column id="288" parent="275" name="create_date">
       <DasType>timestamp|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StateNumber>812</StateNumber>
       <TypeId>1114</TypeId>
     </column>
-    <foreign-key id="290" parent="275" name="feedbacks_user_id_fkey">
+    <foreign-key id="289" parent="275" name="feedbacks_user_id_fkey">
       <ColNames>user_id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16817</ObjectId>
@@ -4403,7 +4405,7 @@ false Zulu
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>16755</RefTableId>
     </foreign-key>
-    <foreign-key id="291" parent="275" name="feedbacks_project_id_fkey">
+    <foreign-key id="290" parent="275" name="feedbacks_project_id_fkey">
       <ColNames>project_id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16822</ObjectId>
@@ -4412,7 +4414,7 @@ false Zulu
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>16771</RefTableId>
     </foreign-key>
-    <index id="292" parent="275" name="feedbacks_pkey">
+    <index id="291" parent="275" name="feedbacks_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16815</ObjectId>
@@ -4421,77 +4423,28 @@ false Zulu
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="293" parent="275" name="feedbacks_pkey">
+    <key id="292" parent="275" name="feedbacks_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16816</ObjectId>
       <Primary>1</Primary>
       <StateNumber>812</StateNumber>
       <UnderlyingIndexId>16815</UnderlyingIndexId>
     </key>
-    <column id="294" parent="276" name="project_id">
-      <DasType>bigint|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-      <StateNumber>811</StateNumber>
-      <TypeId>20</TypeId>
-    </column>
-    <column id="295" parent="276" name="author_id">
-      <DasType>bigint|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>2</Position>
-      <StateNumber>811</StateNumber>
-      <TypeId>20</TypeId>
-    </column>
-    <foreign-key id="296" parent="276" name="project_authors_project_id_fkey">
-      <ColNames>project_id</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>16799</ObjectId>
-      <OnDelete>cascade</OnDelete>
-      <StateNumber>811</StateNumber>
-      <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>16771</RefTableId>
-    </foreign-key>
-    <foreign-key id="297" parent="276" name="project_authors_author_id_fkey">
-      <ColNames>author_id</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>16804</ObjectId>
-      <OnDelete>cascade</OnDelete>
-      <StateNumber>811</StateNumber>
-      <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>16755</RefTableId>
-    </foreign-key>
-    <index id="298" parent="276" name="project_authors_pkey">
-      <ColNames>project_id
-author_id</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>16797</ObjectId>
-      <Primary>1</Primary>
-      <StateNumber>811</StateNumber>
-      <Unique>1</Unique>
-      <AccessMethodId>403</AccessMethodId>
-    </index>
-    <key id="299" parent="276" name="project_authors_pkey">
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>16798</ObjectId>
-      <Primary>1</Primary>
-      <StateNumber>811</StateNumber>
-      <UnderlyingIndexId>16797</UnderlyingIndexId>
-    </key>
-    <column id="300" parent="277" name="project_id">
+    <column id="293" parent="276" name="project_id">
       <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StateNumber>810</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <column id="301" parent="277" name="category_id">
+    <column id="294" parent="276" name="category_id">
       <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>810</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <foreign-key id="302" parent="277" name="project_categories_project_id_fkey">
+    <foreign-key id="295" parent="276" name="project_categories_project_id_fkey">
       <ColNames>project_id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16784</ObjectId>
@@ -4500,7 +4453,7 @@ author_id</ColNames>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>16771</RefTableId>
     </foreign-key>
-    <foreign-key id="303" parent="277" name="project_categories_category_id_fkey">
+    <foreign-key id="296" parent="276" name="project_categories_category_id_fkey">
       <ColNames>category_id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16789</ObjectId>
@@ -4509,7 +4462,7 @@ author_id</ColNames>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>16765</RefTableId>
     </foreign-key>
-    <index id="304" parent="277" name="project_categories_pkey">
+    <index id="297" parent="276" name="project_categories_pkey">
       <ColNames>project_id
 category_id</ColNames>
       <NameSurrogate>1</NameSurrogate>
@@ -4519,14 +4472,14 @@ category_id</ColNames>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="305" parent="277" name="project_categories_pkey">
+    <key id="298" parent="276" name="project_categories_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16783</ObjectId>
       <Primary>1</Primary>
       <StateNumber>810</StateNumber>
       <UnderlyingIndexId>16782</UnderlyingIndexId>
     </key>
-    <column id="306" parent="278" name="id">
+    <column id="299" parent="277" name="id">
       <DasType>bigint|0s</DasType>
       <IdentityKind>by-default</IdentityKind>
       <NotNull>1</NotNull>
@@ -4535,27 +4488,27 @@ category_id</ColNames>
       <SequenceId>16770</SequenceId>
       <TypeId>20</TypeId>
     </column>
-    <column id="307" parent="278" name="name">
+    <column id="300" parent="277" name="name">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>809</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="308" parent="278" name="description">
+    <column id="301" parent="277" name="description">
       <DasType>text|0s</DasType>
       <Position>3</Position>
       <StateNumber>809</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="309" parent="278" name="votes">
+    <column id="302" parent="277" name="votes">
       <DasType>bigint|0s</DasType>
       <DefaultExpression>0</DefaultExpression>
       <Position>4</Position>
       <StateNumber>809</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <column id="310" parent="278" name="create_date">
+    <column id="303" parent="277" name="create_date">
       <DasType>timestamp|0s</DasType>
       <DefaultExpression>now()</DefaultExpression>
       <NotNull>1</NotNull>
@@ -4563,7 +4516,7 @@ category_id</ColNames>
       <StateNumber>823</StateNumber>
       <TypeId>1114</TypeId>
     </column>
-    <index id="311" parent="278" name="projects_pkey">
+    <index id="304" parent="277" name="projects_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16777</ObjectId>
@@ -4572,14 +4525,14 @@ category_id</ColNames>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="312" parent="278" name="projects_pkey">
+    <key id="305" parent="277" name="projects_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16778</ObjectId>
       <Primary>1</Primary>
       <StateNumber>809</StateNumber>
       <UnderlyingIndexId>16777</UnderlyingIndexId>
     </key>
-    <column id="313" parent="279" name="id">
+    <column id="306" parent="278" name="id">
       <DasType>bigint|0s</DasType>
       <IdentityKind>by-default</IdentityKind>
       <NotNull>1</NotNull>
@@ -4588,47 +4541,47 @@ category_id</ColNames>
       <SequenceId>16754</SequenceId>
       <TypeId>20</TypeId>
     </column>
-    <column id="314" parent="279" name="name">
+    <column id="307" parent="278" name="name">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>807</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="315" parent="279" name="email">
+    <column id="308" parent="278" name="email">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>807</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="316" parent="279" name="password_hash">
+    <column id="309" parent="278" name="password_hash">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>807</StateNumber>
       <TypeId>25</TypeId>
     </column>
-    <column id="317" parent="279" name="role">
+    <column id="310" parent="278" name="role">
       <DasType>varchar(50)|0s</DasType>
       <Position>5</Position>
       <StateNumber>807</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="318" parent="279" name="registration">
+    <column id="311" parent="278" name="registration">
       <DasType>timestamp|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StateNumber>807</StateNumber>
       <TypeId>1114</TypeId>
     </column>
-    <column id="319" parent="279" name="status">
+    <column id="312" parent="278" name="status">
       <DasType>varchar(50)|0s</DasType>
       <Position>7</Position>
       <StateNumber>807</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <index id="320" parent="279" name="users_pkey">
+    <index id="313" parent="278" name="users_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16760</ObjectId>
@@ -4637,7 +4590,7 @@ category_id</ColNames>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="321" parent="279" name="users_email_key">
+    <index id="314" parent="278" name="users_email_key">
       <ColNames>email</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16762</ObjectId>
@@ -4648,20 +4601,20 @@ category_id</ColNames>
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <key id="322" parent="279" name="users_pkey">
+    <key id="315" parent="278" name="users_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16761</ObjectId>
       <Primary>1</Primary>
       <StateNumber>807</StateNumber>
       <UnderlyingIndexId>16760</UnderlyingIndexId>
     </key>
-    <key id="323" parent="279" name="users_email_key">
+    <key id="316" parent="278" name="users_email_key">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16763</ObjectId>
       <StateNumber>807</StateNumber>
       <UnderlyingIndexId>16762</UnderlyingIndexId>
     </key>
-    <column id="324" parent="280" name="id">
+    <column id="317" parent="279" name="id">
       <DasType>bigint|0s</DasType>
       <IdentityKind>by-default</IdentityKind>
       <NotNull>1</NotNull>
@@ -4670,19 +4623,19 @@ category_id</ColNames>
       <SequenceId>16827</SequenceId>
       <TypeId>20</TypeId>
     </column>
-    <column id="325" parent="280" name="user_id">
+    <column id="318" parent="279" name="user_id">
       <DasType>bigint|0s</DasType>
       <Position>2</Position>
       <StateNumber>813</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <column id="326" parent="280" name="project_id">
+    <column id="319" parent="279" name="project_id">
       <DasType>bigint|0s</DasType>
       <Position>3</Position>
       <StateNumber>813</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <foreign-key id="327" parent="280" name="votes_user_id_fkey">
+    <foreign-key id="320" parent="279" name="votes_user_id_fkey">
       <ColNames>user_id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16835</ObjectId>
@@ -4691,7 +4644,7 @@ category_id</ColNames>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>16755</RefTableId>
     </foreign-key>
-    <foreign-key id="328" parent="280" name="votes_project_id_fkey">
+    <foreign-key id="321" parent="279" name="votes_project_id_fkey">
       <ColNames>project_id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16840</ObjectId>
@@ -4700,7 +4653,7 @@ category_id</ColNames>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>16771</RefTableId>
     </foreign-key>
-    <index id="329" parent="280" name="votes_pkey">
+    <index id="322" parent="279" name="votes_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16831</ObjectId>
@@ -4709,7 +4662,7 @@ category_id</ColNames>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="330" parent="280" name="votes_user_id_project_id_key">
+    <index id="323" parent="279" name="votes_user_id_project_id_key">
       <ColNames>user_id
 project_id</ColNames>
       <NameSurrogate>1</NameSurrogate>
@@ -4718,14 +4671,14 @@ project_id</ColNames>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="331" parent="280" name="votes_pkey">
+    <key id="324" parent="279" name="votes_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16832</ObjectId>
       <Primary>1</Primary>
       <StateNumber>813</StateNumber>
       <UnderlyingIndexId>16831</UnderlyingIndexId>
     </key>
-    <key id="332" parent="280" name="votes_user_id_project_id_key">
+    <key id="325" parent="279" name="votes_user_id_project_id_key">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16834</ObjectId>
       <StateNumber>813</StateNumber>

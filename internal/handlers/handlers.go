@@ -24,12 +24,17 @@ type ProjectService interface {
 	) error
 }
 
-type Handlers struct {
-	projectService ProjectService
+type UserService interface {
+	Register(ctx context.Context, userDTO *dto.CreateUserDTO) error
 }
 
-func New(projectService ProjectService) *Handlers {
-	return &Handlers{projectService: projectService}
+type Handlers struct {
+	projectService ProjectService
+	userService    UserService
+}
+
+func New(userService UserService, projectService ProjectService) *Handlers {
+	return &Handlers{userService: userService, projectService: projectService}
 }
 
 // Обработчик создания проекта
@@ -55,6 +60,7 @@ func (h *Handlers) Create(w http.ResponseWriter, r *http.Request) {
 			nil,
 		)
 		return
+
 	}
 
 	httpwriter.Success(
@@ -162,4 +168,25 @@ func (h *Handlers) SetDescription(w http.ResponseWriter, r *http.Request) {
 		"Project description updated successfully",
 		nil,
 	)
+}
+
+func (h *Handlers) Register(w http.ResponseWriter, r *http.Request) {
+	var newProject *dto.CreateUserDTO
+	if err := json.NewDecoder(r.Body).Decode(&newProject); err != nil {
+		httpwriter.Error(
+			w,
+			http.StatusBadRequest,
+			err,
+			"Invalid request payload",
+			nil,
+		)
+		return
+	}
+	if err := h.userService.Register(r.Context(), newProject); err != nil {
+		httpwriter.Error(w, http.StatusNotFound, err, err.Error(), nil)
+		return
+	}
+
+	httpwriter.Success(w, http.StatusOK, "Project created successfully", nil)
+	return
 }

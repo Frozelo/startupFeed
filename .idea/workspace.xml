@@ -5,8 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3472ba0-e65e-43d7-88c5-1cb8277bc51a" name="Changes" comment="small fixes, and test routes grouping">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4a7fe97d-11d3-4004-8214-96396e33ed92.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4a7fe97d-11d3-4004-8214-96396e33ed92.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/storage/psql.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/storage/psql.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dto/dto.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/dto/dto.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/handlers/handlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/handlers/handlers.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/models/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/models/models.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +30,9 @@
   </component>
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="true" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/internal/handlers/handlers.go" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -121,7 +128,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/internal/services/project.go</url>
-          <line>34</line>
+          <line>36</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
