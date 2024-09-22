@@ -2,6 +2,7 @@ package repo
 
 import (
 	"context"
+	"errors"
 	"log"
 
 	"github.com/jackc/pgx/v5"
@@ -15,6 +16,29 @@ type UserRepo struct {
 
 func NewUserRepo(db *pgx.Conn) *UserRepo {
 	return &UserRepo{db: db}
+}
+
+func (r *UserRepo) FindUserByEmail(
+	ctx context.Context,
+	email string,
+) (*models.User, error) {
+	user := &models.User{}
+
+	query := `SELECT * FROM users WHERE email = $1`
+	if err := r.db.QueryRow(ctx, query, email).Scan(
+		&user.ID,
+		&user.Username,
+		&user.Email,
+		&user.PasswordHash,
+		&user.Role,
+		&user.RegistrationDate,
+		&user.Status); err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return nil, nil
+		}
+	}
+
+	return user, nil
 }
 
 func (r *UserRepo) Create(

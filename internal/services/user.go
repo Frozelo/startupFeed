@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"errors"
 
 	"golang.org/x/crypto/bcrypt"
 
@@ -16,6 +17,7 @@ const (
 
 type UserRepo interface {
 	Create(ctx context.Context, user *models.User) error
+	FindUserByEmail(ctx context.Context, email string) (*models.User, error)
 }
 
 type UserService struct {
@@ -31,13 +33,6 @@ func (us *UserService) Register(
 	userDTO *dto.CreateUserDTO,
 ) error {
 	var newUser *models.User
-
-	// TODO userRepo logic: exsiting check
-	//===================================
-
-	// TODO hashing password logic
-	//===================================
-
 	passwordHash, err := passwordHash(userDTO.Password)
 	if err != nil {
 		return err
@@ -50,12 +45,29 @@ func (us *UserService) Register(
 		Role:         DefaultRole,
 	}
 
-	// TODO implemet userRepo logic: save user data
-	// =================================
 	if err := us.userRepo.Create(ctx, newUser); err != nil {
 		return err
 	}
 	return nil
+}
+
+func (us *UserService) Login(
+	ctx context.Context,
+	loginUserDTO *dto.LoginUserDTO,
+) (*models.User, error) {
+	user, err := us.userRepo.FindUserByEmail(ctx, loginUserDTO.Email)
+	if err != nil {
+		return nil, err
+	}
+
+	if user == nil {
+		return nil, errors.New("user not found")
+	}
+
+	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(loginUserDTO.Password)); err != nil {
+		return nil, errors.New("invalid password")
+	}
+	return user, nil
 }
 
 func passwordHash(password string) (string, error) {

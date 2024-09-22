@@ -26,6 +26,7 @@ type ProjectService interface {
 
 type UserService interface {
 	Register(ctx context.Context, userDTO *dto.CreateUserDTO) error
+	Login(ctx context.Context, loginDTO *dto.LoginUserDTO) (*models.User, error)
 }
 
 type Handlers struct {
@@ -188,5 +189,30 @@ func (h *Handlers) Register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	httpwriter.Success(w, http.StatusOK, "Project created successfully", nil)
-	return
+}
+
+func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
+	var logedUser dto.LoginUserDTO
+	if err := json.NewDecoder(r.Body).Decode(&logedUser); err != nil {
+		httpwriter.Error(
+			w,
+			http.StatusBadRequest,
+			err,
+			"Invalid request payload",
+			nil,
+		)
+		return
+	}
+
+	_, err := h.userService.Login(r.Context(), &logedUser)
+	if err != nil {
+		if err.Error() == "user not found" {
+			httpwriter.Error(w, http.StatusNotFound, err, err.Error(), nil)
+		} else {
+			httpwriter.Error(w, http.StatusUnauthorized, err, err.Error(), nil)
+		}
+		return
+	}
+
+	httpwriter.Success(w, http.StatusOK, "Login successful", nil)
 }

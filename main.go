@@ -46,6 +46,7 @@ func main() {
 		r.Put("/projects/{projectId}/update", handler.SetDescription)
 
 		r.Post("/users/register", handler.Register)
+		r.Post("/users/login", handler.Login)
 	})
 
 	r.Mount("/api", apiRouter)
