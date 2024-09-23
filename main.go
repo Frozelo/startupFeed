@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"log/slog"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -11,10 +12,16 @@ import (
 	"github.com/Frozelo/startupFeed/internal/repo"
 	"github.com/Frozelo/startupFeed/internal/services"
 	"github.com/Frozelo/startupFeed/internal/storage"
+	"github.com/Frozelo/startupFeed/pkg/logger"
 )
 
 func main() {
 	// TODO Implement config logic
+	l, err := logger.New(slog.LevelInfo, "file.log")
+	if err != nil {
+		log.Fatal("logger initialization failed")
+	}
+
 	db, err := storage.New(
 		"postgresql://localhost:5432/startupfeed",
 	)
@@ -24,8 +31,7 @@ func main() {
 	defer db.Close()
 
 	redisClient := storage.NewRedisClient()
-	log.Println("redis successfully initialized", redisClient)
-
+	l.Info("redis initialized", nil)
 	projectRepo := repo.NewProjectRepo(db.Conn)
 	projectService := services.NewProjectService(projectRepo, redisClient)
 
