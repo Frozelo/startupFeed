@@ -9,6 +9,7 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 
 	"github.com/Frozelo/startupFeed/internal/handlers"
+	"github.com/Frozelo/startupFeed/internal/middlewares"
 	"github.com/Frozelo/startupFeed/internal/repo"
 	"github.com/Frozelo/startupFeed/internal/services"
 	"github.com/Frozelo/startupFeed/internal/storage"
@@ -46,15 +47,19 @@ func main() {
 	r.Use(middleware.Recoverer)
 
 	apiRouter := chi.NewRouter()
-	apiRouter.Route("/v1", func(r chi.Router) {
-		r.Get("/projects/{projectId}", handler.FindById)
-		r.Post("/projects", handler.Create)
-		r.Put("/projects/{projectId}", handler.SetLike)
-		r.Put("/projects/{projectId}/update", handler.SetDescription)
 
+	apiRouter.Route("/v1", func(r chi.Router) {
 		r.Post("/users/register", handler.Register)
 		r.Post("/users/login", handler.Login)
-		r.Get("/testHandler", handler.TestProtectedHandler)
+
+		r.Group(func(r chi.Router) {
+			r.Use(middlewares.JwtAuth)
+
+			r.Get("/projects/{projectId}", handler.FindById)
+			r.Post("/projects", handler.Create)
+			r.Put("/projects/{projectId}", handler.SetLike)
+			r.Put("/projects/{projectId}/update", handler.SetDescription)
+		})
 	})
 
 	r.Mount("/api", apiRouter)

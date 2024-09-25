@@ -3,10 +3,9 @@ package handlers
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"net/http"
 	"strconv"
-	"strings"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 
@@ -228,26 +227,10 @@ func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
 		)
 	}
 
+	http.SetCookie(w, &http.Cookie{
+		Name:    "jwtToken",
+		Value:   token,
+		Expires: time.Now().Add(24 * time.Hour),
+	})
 	httpwriter.Success(w, http.StatusOK, token, nil)
-}
-
-func (h *Handlers) TestProtectedHandler(
-	w http.ResponseWriter,
-	r *http.Request,
-) {
-	tokenString := r.Header.Get("Authorization")
-	if tokenString == "" {
-		err := errors.New("missing auth header")
-		httpwriter.Error(w, http.StatusUnauthorized, err, err.Error(), nil)
-		return
-	}
-
-	tokenStringNew := strings.Split(tokenString, "Bearer ")
-
-	if err := jwt.VerifyToken(tokenStringNew[1]); err != nil {
-		httpwriter.Error(w, http.StatusUnauthorized, err, "Invalid token", nil)
-		return
-	}
-
-	httpwriter.Success(w, http.StatusOK, "Welcome to projected area", nil)
 }
