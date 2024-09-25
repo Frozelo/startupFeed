@@ -1,1 +1,13 @@
 {"time":"2024-09-24T00:42:45.210715+07:00","level":"INFO","msg":"redis initialized","!BADKEY":null}
+{"time":"2024-09-25T22:48:21.001189+07:00","level":"INFO","msg":"postgres initialized"}
+{"time":"2024-09-25T22:48:21.003515+07:00","level":"INFO","msg":"redis initialized","!BADKEY":null}
+{"time":"2024-09-25T23:08:54.700371+07:00","level":"INFO","msg":"postgres initialized"}
+{"time":"2024-09-25T23:08:54.702446+07:00","level":"INFO","msg":"redis initialized","!BADKEY":null}
+{"time":"2024-09-25T23:12:12.155402+07:00","level":"INFO","msg":"postgres initialized"}
+{"time":"2024-09-25T23:12:12.157369+07:00","level":"INFO","msg":"redis initialized","!BADKEY":null}
+{"time":"2024-09-25T23:14:07.100449+07:00","level":"INFO","msg":"postgres initialized"}
+{"time":"2024-09-25T23:14:07.102988+07:00","level":"INFO","msg":"redis initialized","!BADKEY":null}
+{"time":"2024-09-25T23:18:14.672463+07:00","level":"INFO","msg":"postgres initialized"}
+{"time":"2024-09-25T23:18:14.674703+07:00","level":"INFO","msg":"redis initialized","!BADKEY":null}
+{"time":"2024-09-25T23:18:46.754614+07:00","level":"INFO","msg":"postgres initialized"}
+{"time":"2024-09-25T23:18:46.756857+07:00","level":"INFO","msg":"redis initialized","!BADKEY":null}

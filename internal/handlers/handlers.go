@@ -3,14 +3,17 @@ package handlers
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/go-chi/chi/v5"
 
 	"github.com/Frozelo/startupFeed/internal/dto"
 	"github.com/Frozelo/startupFeed/internal/models"
 	httpwriter "github.com/Frozelo/startupFeed/pkg/http"
+	"github.com/Frozelo/startupFeed/pkg/jwt"
 )
 
 type ProjectService interface {
@@ -188,7 +191,7 @@ func (h *Handlers) Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	httpwriter.Success(w, http.StatusOK, "Project created successfully", nil)
+	httpwriter.Success(w, http.StatusOK, "User registered successfully", nil)
 }
 
 func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
@@ -204,7 +207,7 @@ func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err := h.userService.Login(r.Context(), &logedUser)
+	newUser, err := h.userService.Login(r.Context(), &logedUser)
 	if err != nil {
 		if err.Error() == "user not found" {
 			httpwriter.Error(w, http.StatusNotFound, err, err.Error(), nil)
@@ -214,5 +217,37 @@ func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	httpwriter.Success(w, http.StatusOK, "Login successful", nil)
+	token, err := jwt.CreateToken(newUser)
+	if err != nil {
+		httpwriter.Error(
+			w,
+			http.StatusInternalServerError,
+			err,
+			"Failed to generate token",
+			nil,
+		)
+	}
+
+	httpwriter.Success(w, http.StatusOK, token, nil)
+}
+
+func (h *Handlers) TestProtectedHandler(
+	w http.ResponseWriter,
+	r *http.Request,
+) {
+	tokenString := r.Header.Get("Authorization")
+	if tokenString == "" {
+		err := errors.New("missing auth header")
+		httpwriter.Error(w, http.StatusUnauthorized, err, err.Error(), nil)
+		return
+	}
+
+	tokenStringNew := strings.Split(tokenString, "Bearer ")
+
+	if err := jwt.VerifyToken(tokenStringNew[1]); err != nil {
+		httpwriter.Error(w, http.StatusUnauthorized, err, "Invalid token", nil)
+		return
+	}
+
+	httpwriter.Success(w, http.StatusOK, "Welcome to projected area", nil)
 }

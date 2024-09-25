@@ -29,6 +29,7 @@ func main() {
 		log.Fatal(err)
 	}
 	defer db.Close()
+	l.Info("postgres initialized")
 
 	redisClient := storage.NewRedisClient()
 	l.Info("redis initialized", nil)
@@ -53,6 +54,7 @@ func main() {
 
 		r.Post("/users/register", handler.Register)
 		r.Post("/users/login", handler.Login)
+		r.Get("/testHandler", handler.TestProtectedHandler)
 	})
 
 	r.Mount("/api", apiRouter)

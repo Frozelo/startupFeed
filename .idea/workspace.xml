@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3472ba0-e65e-43d7-88c5-1cb8277bc51a" name="Changes" comment="small fixes, and test routes grouping">
-      <change afterPath="$PROJECT_DIR$/file.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/logger/slog.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/4a7fe97d-11d3-4004-8214-96396e33ed92.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/4a7fe97d-11d3-4004-8214-96396e33ed92.xml" afterDir="false" />
+    <list default="true" id="e3472ba0-e65e-43d7-88c5-1cb8277bc51a" name="Changes" comment="slog init">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
@@ -119,7 +116,8 @@
     <MESSAGE value="add custom httpwriter" />
     <MESSAGE value="handler bug fix" />
     <MESSAGE value="small fixes, and test routes grouping" />
-    <option name="LAST_COMMIT_MESSAGE" value="small fixes, and test routes grouping" />
+    <MESSAGE value="slog init" />
+    <option name="LAST_COMMIT_MESSAGE" value="slog init" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
