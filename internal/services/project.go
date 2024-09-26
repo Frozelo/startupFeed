@@ -122,24 +122,16 @@ func (s *ProjectService) SetDescription(
 		return errors.New("projects not found")
 	}
 
-	authorsId, err := s.userRepo.GetAuthors(ctx, projectId)
-	if err != nil {
+	if !s.isAuthor(ctx, userId, projectId) {
+		return errors.New("you do not have permission to edit this project")
+	}
+
+	project.Description = updateProjectDto.Description
+	// TODO caching invalidation
+	if err := s.projectRepo.UpdateDescription(ctx, project); err != nil {
 		return err
 	}
-
-	if slices.Contains(authorsId, userId) {
-		project.Description = updateProjectDto.Description
-
-		// TODO caching invalidation
-		if err := s.projectRepo.UpdateDescription(ctx, project); err != nil {
-			return err
-		}
-
-		return nil
-
-	} else {
-		return errors.New("you cant edit this project")
-	}
+	return nil
 }
 
 func (s *ProjectService) DeleteProjectCache(
@@ -152,4 +144,18 @@ func (s *ProjectService) DeleteProjectCache(
 
 func generateProjectCacheKey(id int64) string {
 	return "project:" + strconv.FormatInt(id, 10)
+}
+
+func (s *ProjectService) isAuthor(
+	ctx context.Context,
+	userId int64,
+	projectId int64,
+) bool {
+	authorsId, err := s.userRepo.GetAuthors(ctx, projectId)
+	if err != nil {
+		log.Printf("error fetching authors for project %d: %v", projectId, err)
+		return false
+	}
+
+	return slices.Contains(authorsId, userId)
 }

@@ -63,10 +63,7 @@ func main() {
 			r.Get("/projects/{projectId}", handler.FindById)
 			r.Post("/projects", handler.Create)
 			r.Put("/projects/{projectId}", handler.SetLike)
-			r.Put(
-				"/projects/{projectId}/update/{userId}",
-				handler.SetDescription,
-			)
+			r.Put("/projects/{projectId}/update", handler.SetDescription)
 		})
 	})
 

@@ -1,13 +1,21 @@
 package middlewares
 
 import (
+	"context"
 	"errors"
+	"fmt"
 	"net/http"
 	"strings"
 
+	"github.com/golang-jwt/jwt/v5"
+
 	httpwriter "github.com/Frozelo/startupFeed/pkg/http"
-	"github.com/Frozelo/startupFeed/pkg/jwt"
+	jwter "github.com/Frozelo/startupFeed/pkg/jwt"
 )
+
+type ctxKey = string
+
+const UserIdKey = ctxKey("userId")
 
 func CORS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -37,18 +45,36 @@ func JwtAuth(next http.Handler) http.Handler {
 		}
 
 		tokenString := strings.TrimPrefix(authHeader, "Bearer ")
-
-		if err := jwt.VerifyToken(tokenString); err != nil {
-			httpwriter.Error(
-				w,
-				http.StatusUnauthorized,
-				err,
-				"Invalid token",
-				nil,
-			)
+		token, err := jwter.ParseToken(tokenString)
+		if err != nil {
+			http.Error(w, "Invalid token", http.StatusUnauthorized)
 			return
 		}
 
-		next.ServeHTTP(w, r)
+		claims, ok := token.Claims.(jwt.MapClaims)
+		if !ok || !token.Valid {
+			http.Error(w, "Invalid token claims", http.StatusUnauthorized)
+			return
+		}
+
+		userId, ok := claims["userId"].(float64)
+		fmt.Println(userId)
+		if !ok {
+			http.Error(w, "Invalid userId in token", http.StatusUnauthorized)
+			return
+		}
+
+		ctx := context.WithValue(r.Context(), UserIdKey, userId)
+
+		next.ServeHTTP(w, r.WithContext(ctx))
 	})
+}
+
+func GetUserIDFromContext(ctx context.Context) (int64, bool) {
+	userIdCtx := ctx.Value(UserIdKey)
+	if userIdFloat, ok := userIdCtx.(float64); ok {
+		userId := int64(userIdFloat)
+		return userId, true
+	}
+	return 0, false
 }

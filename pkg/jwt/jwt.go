@@ -39,6 +39,22 @@ func CreateToken(user *models.User) (string, error) {
 	return tokenString, nil
 }
 
+func ParseToken(tokenString string) (*jwt.Token, error) {
+	token, err := jwt.Parse(
+		tokenString,
+		func(token *jwt.Token) (interface{}, error) {
+			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+				return nil, jwt.ErrInvalidKey
+			}
+			return []byte(secretKey), nil
+		},
+	)
+	if err != nil || !token.Valid {
+		return nil, errors.New("invalid token")
+	}
+	return token, err
+}
+
 func VerifyToken(tokenString string) error {
 	token, err := jwt.Parse(
 		tokenString,

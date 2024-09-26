@@ -3,6 +3,7 @@ package handlers
 import (
 	"context"
 	"encoding/json"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -10,6 +11,7 @@ import (
 	"github.com/go-chi/chi/v5"
 
 	"github.com/Frozelo/startupFeed/internal/dto"
+	"github.com/Frozelo/startupFeed/internal/middlewares"
 	"github.com/Frozelo/startupFeed/internal/models"
 	httpwriter "github.com/Frozelo/startupFeed/pkg/http"
 	"github.com/Frozelo/startupFeed/pkg/jwt"
@@ -128,8 +130,9 @@ func (h *Handlers) SetLike(w http.ResponseWriter, r *http.Request) {
 	httpwriter.Success(w, http.StatusOK, "Project liked successfully", nil)
 }
 
-// Обработчик обновления описания проекта
 func (h *Handlers) SetDescription(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
 	var updateProjectDto dto.UpdateProjectDTO
 	if err := json.NewDecoder(r.Body).Decode(&updateProjectDto); err != nil {
 		httpwriter.Error(
@@ -155,9 +158,9 @@ func (h *Handlers) SetDescription(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userIdStr := chi.URLParam(r, "userId")
-	userId, err := strconv.ParseInt(userIdStr, 10, 64)
-	if err != nil {
+	userId, ok := middlewares.GetUserIDFromContext(ctx)
+	log.Printf("the user id is %v", userId)
+	if !ok {
 		httpwriter.Error(
 			w,
 			http.StatusBadRequest,
@@ -168,7 +171,7 @@ func (h *Handlers) SetDescription(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := h.projectService.SetDescription(r.Context(), projectId, userId, &updateProjectDto); err != nil {
+	if err := h.projectService.SetDescription(ctx, projectId, userId, &updateProjectDto); err != nil {
 		httpwriter.Error(
 			w,
 			http.StatusInternalServerError,
