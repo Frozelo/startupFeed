@@ -18,6 +18,7 @@ const (
 type UserRepo interface {
 	Create(ctx context.Context, user *models.User) error
 	FindUserByEmail(ctx context.Context, email string) (*models.User, error)
+	GetAuthors(ctx context.Context, projectId int64) ([]int64, error)
 }
 
 type UserService struct {

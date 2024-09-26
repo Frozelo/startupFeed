@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"log"
+	"slices"
 	"strconv"
 	"time"
 
@@ -27,11 +28,20 @@ type Cache interface {
 
 type ProjectService struct {
 	projectRepo ProjectRepo
+	userRepo    UserRepo
 	cache       Cache
 }
 
-func NewProjectService(projectRepo ProjectRepo, cache Cache) *ProjectService {
-	return &ProjectService{projectRepo: projectRepo, cache: cache}
+func NewProjectService(
+	projectRepo ProjectRepo,
+	userRepo UserRepo,
+	cache Cache,
+) *ProjectService {
+	return &ProjectService{
+		projectRepo: projectRepo,
+		userRepo:    userRepo,
+		cache:       cache,
+	}
 }
 
 func (s *ProjectService) Create(
@@ -101,6 +111,7 @@ func (s *ProjectService) SetLike(ctx context.Context, projectId int64) error {
 func (s *ProjectService) SetDescription(
 	ctx context.Context,
 	projectId int64,
+	userId int64,
 	updateProjectDto *dto.UpdateProjectDTO,
 ) error {
 	project, err := s.projectRepo.FindByID(ctx, projectId)
@@ -111,15 +122,24 @@ func (s *ProjectService) SetDescription(
 		return errors.New("projects not found")
 	}
 
-	log.Printf("dto project Description is %s", updateProjectDto.Description)
-	project.Description = updateProjectDto.Description
-
-	// TODO caching invalidation
-	if err := s.projectRepo.UpdateDescription(ctx, project); err != nil {
+	authorsId, err := s.userRepo.GetAuthors(ctx, projectId)
+	if err != nil {
 		return err
 	}
 
-	return nil
+	if slices.Contains(authorsId, userId) {
+		project.Description = updateProjectDto.Description
+
+		// TODO caching invalidation
+		if err := s.projectRepo.UpdateDescription(ctx, project); err != nil {
+			return err
+		}
+
+		return nil
+
+	} else {
+		return errors.New("you cant edit this project")
+	}
 }
 
 func (s *ProjectService) DeleteProjectCache(

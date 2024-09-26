@@ -22,6 +22,7 @@ type ProjectService interface {
 	SetDescription(
 		ctx context.Context,
 		projectId int64,
+		userId int64,
 		updateProjectDto *dto.UpdateProjectDTO,
 	) error
 }
@@ -154,7 +155,20 @@ func (h *Handlers) SetDescription(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := h.projectService.SetDescription(r.Context(), projectId, &updateProjectDto); err != nil {
+	userIdStr := chi.URLParam(r, "userId")
+	userId, err := strconv.ParseInt(userIdStr, 10, 64)
+	if err != nil {
+		httpwriter.Error(
+			w,
+			http.StatusBadRequest,
+			err,
+			"Invalid user ID",
+			nil,
+		)
+		return
+	}
+
+	if err := h.projectService.SetDescription(r.Context(), projectId, userId, &updateProjectDto); err != nil {
 		httpwriter.Error(
 			w,
 			http.StatusInternalServerError,

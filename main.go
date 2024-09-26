@@ -35,9 +35,13 @@ func main() {
 	redisClient := storage.NewRedisClient()
 	l.Info("redis initialized", nil)
 	projectRepo := repo.NewProjectRepo(db.Conn)
-	projectService := services.NewProjectService(projectRepo, redisClient)
-
 	userRepo := repo.NewUserRepo(db.Conn)
+
+	projectService := services.NewProjectService(
+		projectRepo,
+		userRepo,
+		redisClient,
+	)
 	userService := services.NewUserSerice(userRepo)
 	handler := handlers.New(userService, projectService)
 
@@ -45,6 +49,7 @@ func main() {
 	r.Use(middleware.RequestID)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
+	r.Use(middlewares.CORS)
 
 	apiRouter := chi.NewRouter()
 
@@ -58,7 +63,10 @@ func main() {
 			r.Get("/projects/{projectId}", handler.FindById)
 			r.Post("/projects", handler.Create)
 			r.Put("/projects/{projectId}", handler.SetLike)
-			r.Put("/projects/{projectId}/update", handler.SetDescription)
+			r.Put(
+				"/projects/{projectId}/update/{userId}",
+				handler.SetDescription,
+			)
 		})
 	})
 

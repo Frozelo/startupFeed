@@ -72,3 +72,32 @@ func (r *UserRepo) Create(
 
 	return nil
 }
+
+func (r *UserRepo) GetAuthors(
+	ctx context.Context,
+	projectId int64,
+) ([]int64, error) {
+	query := `SELECT user_id FROM project_authors WHERE project_id = $1`
+	rows, err := r.db.Query(ctx, query, projectId)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var authorsId []int64
+
+	for rows.Next() {
+		var authorId int64
+
+		if err := rows.Scan(&authorId); err != nil { // Передаем указатель на authorId
+			return nil, err
+		}
+		authorsId = append(authorsId, authorId) // Добавляем authorId в срез
+	}
+
+	if err := rows.Err(); err != nil { // Проверяем на наличие ошибок после итерации
+		return nil, err
+	}
+
+	return authorsId, nil
+}
