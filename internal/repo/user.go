@@ -89,13 +89,13 @@ func (r *UserRepo) GetAuthors(
 	for rows.Next() {
 		var authorId int64
 
-		if err := rows.Scan(&authorId); err != nil { // Передаем указатель на authorId
+		if err := rows.Scan(&authorId); err != nil {
 			return nil, err
 		}
-		authorsId = append(authorsId, authorId) // Добавляем authorId в срез
+		authorsId = append(authorsId, authorId)
 	}
 
-	if err := rows.Err(); err != nil { // Проверяем на наличие ошибок после итерации
+	if err := rows.Err(); err != nil {
 		return nil, err
 	}
 

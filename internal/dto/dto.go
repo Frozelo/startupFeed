@@ -7,6 +7,11 @@ type CreateUserDTO struct {
 	Role     string `json:"role"`
 }
 
+type CreateFeedbackDTO struct {
+	UserId int64  `json:"user_id"`
+	Text   string `json:"text"`
+}
+
 type LoginUserDTO struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`

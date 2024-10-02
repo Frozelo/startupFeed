@@ -18,19 +18,19 @@ type Category struct {
 }
 
 type Project struct {
-	ID          int64      `json:"id"`
-	Name        string     `json:"name"`
-	Description string     `json:"description"`
-	Categories  []Category `json:"categories"`
-	Authors     []User     `json:"authors"`
-	Feedbacks   []Feedback `json:"feedbacks"`
-	Votes       int64      `json:"votes"`
-	CreateDate  time.Time  `json:"create_date"`
+	ID          int64       `json:"id"`
+	Name        string      `json:"name"`
+	Description string      `json:"description"`
+	Categories  []Category  `json:"categories"`
+	Authors     []User      `json:"authors"`
+	Feedbacks   []*Feedback `json:"feedbacks"`
+	Votes       int64       `json:"votes"`
+	CreateDate  time.Time   `json:"create_date"`
 }
 
 type Feedback struct {
 	ID         int64     `json:"id"`
-	User       User      `json:"user"`
+	UserId     int64     `json:"user"`
 	Text       string    `json:"text"`
 	CreateDate time.Time `json:"create_date"`
 }

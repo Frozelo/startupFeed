@@ -51,6 +51,7 @@ func (r *ProjectRepo) FindByID(
 		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, nil
 		}
+		log.Println("find by id err")
 		return nil, err
 	}
 	return project, nil
@@ -108,4 +109,62 @@ func (r *ProjectRepo) UpdateDescription(
 		return err
 	}
 	return nil
+}
+
+func (r *ProjectRepo) CreateFeedback(
+	ctx context.Context,
+	projectId int64,
+	feedback *models.Feedback,
+) error {
+	tx, err := r.db.Begin(ctx)
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback(ctx)
+
+	query := `INSERT INTO feedbacks(user_id, project_id, text) VALUES ($1, $2, $3)`
+	_, err = tx.Exec(
+		ctx,
+		query,
+		feedback.UserId,
+		projectId,
+		feedback.Text,
+	)
+	if err != nil {
+		return err
+	}
+	return tx.Commit(ctx)
+}
+
+func (r *ProjectRepo) GetFeedbacksByProjectId(
+	ctx context.Context,
+	projectId int64,
+) ([]*models.Feedback, error) {
+	query := `SELECT id, user_id, text, create_date FROM feedbacks WHERE project_id = $1`
+	rows, err := r.db.Query(ctx, query, projectId)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var feedbacks []*models.Feedback
+	for rows.Next() {
+		feedback := &models.Feedback{}
+		if err := rows.Scan(
+			&feedback.ID,
+			&feedback.UserId,
+			&feedback.Text,
+			&feedback.CreateDate,
+		); err != nil {
+			log.Println("feedbacks repo err is here!")
+			return nil, err
+		}
+		feedbacks = append(feedbacks, feedback)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return feedbacks, nil
 }

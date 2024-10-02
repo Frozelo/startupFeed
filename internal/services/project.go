@@ -18,6 +18,15 @@ type ProjectRepo interface {
 	FindByID(ctx context.Context, id int64) (*models.Project, error)
 	UpdateLikes(ctx context.Context, project *models.Project) error
 	UpdateDescription(ctx context.Context, project *models.Project) error
+	CreateFeedback(
+		ctx context.Context,
+		projectId int64,
+		feedback *models.Feedback,
+	) error
+	GetFeedbacksByProjectId(
+		ctx context.Context,
+		projectId int64,
+	) ([]*models.Feedback, error)
 }
 
 type Cache interface {
@@ -71,6 +80,13 @@ func (s *ProjectService) FindByID(
 	if err != nil {
 		return nil, err
 	}
+	feedbacks, err := s.projectRepo.GetFeedbacksByProjectId(ctx, project.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	project.Feedbacks = feedbacks
+
 	log.Println("found it in database!")
 
 	if project == nil {
@@ -129,6 +145,21 @@ func (s *ProjectService) SetDescription(
 	project.Description = updateProjectDto.Description
 	// TODO caching invalidation
 	if err := s.projectRepo.UpdateDescription(ctx, project); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *ProjectService) CreateFeedback(
+	ctx context.Context,
+	projectId int64,
+	feedback *dto.CreateFeedbackDTO,
+) error {
+	newFeedback := &models.Feedback{
+		UserId: feedback.UserId,
+		Text:   feedback.Text,
+	}
+	if err := s.projectRepo.CreateFeedback(ctx, projectId, newFeedback); err != nil {
 		return err
 	}
 	return nil

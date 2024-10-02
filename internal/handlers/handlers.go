@@ -27,6 +27,11 @@ type ProjectService interface {
 		userId int64,
 		updateProjectDto *dto.UpdateProjectDTO,
 	) error
+	CreateFeedback(
+		ctx context.Context,
+		projectId int64,
+		feedback *dto.CreateFeedbackDTO,
+	) error
 }
 
 type UserService interface {
@@ -250,4 +255,51 @@ func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
 		Expires: time.Now().Add(24 * time.Hour),
 	})
 	httpwriter.Success(w, http.StatusOK, token, nil)
+}
+
+func (h *Handlers) CreateFeedback(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	var newFeedback dto.CreateFeedbackDTO
+	if err := json.NewDecoder(r.Body).Decode(&newFeedback); err != nil {
+		httpwriter.Error(
+			w,
+			http.StatusBadRequest,
+			err,
+			"Invalid request payload",
+			nil,
+		)
+		return
+	}
+
+	projectIdStr := chi.URLParam(r, "projectId")
+	projectId, err := strconv.ParseInt(projectIdStr, 10, 64)
+	if err != nil {
+		httpwriter.Error(
+			w,
+			http.StatusBadRequest,
+			err,
+			"Invalid project ID",
+			nil,
+		)
+		return
+	}
+
+	if err := h.projectService.CreateFeedback(ctx, projectId, &newFeedback); err != nil {
+		httpwriter.Error(
+			w,
+			http.StatusInternalServerError,
+			err,
+			"Failed to create feedback",
+			nil,
+		)
+		return
+
+	}
+
+	httpwriter.Success(
+		w,
+		http.StatusCreated,
+		"Feedback created successfully",
+		nil,
+	)
 }

@@ -62,6 +62,7 @@ func main() {
 
 			r.Get("/projects/{projectId}", handler.FindById)
 			r.Post("/projects", handler.Create)
+			r.Post("/projects/{projectId}/feedback", handler.CreateFeedback)
 			r.Put("/projects/{projectId}", handler.SetLike)
 			r.Put("/projects/{projectId}/update", handler.SetDescription)
 		})
