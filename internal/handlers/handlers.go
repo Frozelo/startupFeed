@@ -19,8 +19,8 @@ import (
 
 type ProjectService interface {
 	Create(ctx context.Context, project *models.Project) error
+	GetAll(ctx context.Context) ([]*models.Project, error)
 	FindByID(ctx context.Context, id int64) (*models.Project, error)
-	SetLike(ctx context.Context, projectId int64) error
 	SetDescription(
 		ctx context.Context,
 		projectId int64,
@@ -82,6 +82,22 @@ func (h *Handlers) Create(w http.ResponseWriter, r *http.Request) {
 	)
 }
 
+func (h *Handlers) GetAll(w http.ResponseWriter, r *http.Request) {
+	projects, err := h.projectService.GetAll(r.Context())
+	if err != nil {
+		httpwriter.Error(
+			w,
+			http.StatusInternalServerError,
+			err,
+			"Failed to retirive projects",
+			nil,
+		)
+		return
+	}
+
+	httpwriter.Success(w, http.StatusOK, projects, nil)
+}
+
 // Обработчик поиска проекта по ID
 func (h *Handlers) FindById(w http.ResponseWriter, r *http.Request) {
 	projectIdStr := chi.URLParam(r, "projectId")
@@ -104,35 +120,6 @@ func (h *Handlers) FindById(w http.ResponseWriter, r *http.Request) {
 	}
 
 	httpwriter.Success(w, http.StatusOK, project, nil)
-}
-
-// Обработчик для лайков проекта
-func (h *Handlers) SetLike(w http.ResponseWriter, r *http.Request) {
-	projectIdStr := chi.URLParam(r, "projectId")
-	projectId, err := strconv.ParseInt(projectIdStr, 10, 64)
-	if err != nil {
-		httpwriter.Error(
-			w,
-			http.StatusBadRequest,
-			err,
-			"Invalid project ID",
-			nil,
-		)
-		return
-	}
-
-	if err := h.projectService.SetLike(r.Context(), projectId); err != nil {
-		httpwriter.Error(
-			w,
-			http.StatusInternalServerError,
-			err,
-			"Failed to like project",
-			nil,
-		)
-		return
-	}
-
-	httpwriter.Success(w, http.StatusOK, "Project liked successfully", nil)
 }
 
 func (h *Handlers) SetDescription(w http.ResponseWriter, r *http.Request) {

@@ -15,12 +15,11 @@ import (
 
 type ProjectRepo interface {
 	Create(ctx context.Context, project *models.Project) error
+	GetAll(ctx context.Context) ([]*models.Project, error)
 	FindByID(ctx context.Context, id int64) (*models.Project, error)
-	UpdateLikes(ctx context.Context, project *models.Project) error
-	UpdateDescription(ctx context.Context, project *models.Project) error
+	UpdateDescription(ctx context.Context, id int64, description string) error
 	CreateFeedback(
 		ctx context.Context,
-		projectId int64,
 		feedback *models.Feedback,
 	) error
 	GetFeedbacksByProjectId(
@@ -60,6 +59,14 @@ func (s *ProjectService) Create(
 	return s.projectRepo.Create(ctx, project)
 }
 
+func (s *ProjectService) GetAll(ctx context.Context) ([]*models.Project, error) {
+	projects, err := s.projectRepo.GetAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return projects, err
+}
+
 // Find project by ID with Redis cache
 func (s *ProjectService) FindByID(
 	ctx context.Context,
@@ -80,12 +87,6 @@ func (s *ProjectService) FindByID(
 	if err != nil {
 		return nil, err
 	}
-	feedbacks, err := s.projectRepo.GetFeedbacksByProjectId(ctx, project.ID)
-	if err != nil {
-		return nil, err
-	}
-
-	project.Feedbacks = feedbacks
 
 	log.Println("found it in database!")
 
@@ -98,30 +99,6 @@ func (s *ProjectService) FindByID(
 	}
 
 	return project, nil
-}
-
-// Set like for a project and update cache
-func (s *ProjectService) SetLike(ctx context.Context, projectId int64) error {
-	project, err := s.projectRepo.FindByID(ctx, projectId)
-	if err != nil {
-		return err
-	}
-
-	if project == nil {
-		return errors.New("project not found")
-	}
-	project.Votes += 1
-	if err := s.projectRepo.UpdateLikes(ctx, project); err != nil {
-		return err
-	}
-
-	cacheKey := generateProjectCacheKey(projectId)
-	if jsonData, err := json.Marshal(project); err == nil {
-		s.cache.Set(cacheKey, jsonData, 10*time.Minute)
-	}
-	log.Println("New cache set!")
-
-	return nil
 }
 
 func (s *ProjectService) SetDescription(
@@ -142,9 +119,9 @@ func (s *ProjectService) SetDescription(
 		return errors.New("you do not have permission to edit this project")
 	}
 
-	project.Description = updateProjectDto.Description
+	description := updateProjectDto.Description
 	// TODO caching invalidation
-	if err := s.projectRepo.UpdateDescription(ctx, project); err != nil {
+	if err := s.projectRepo.UpdateDescription(ctx, project.ID, description); err != nil {
 		return err
 	}
 	return nil
@@ -159,7 +136,7 @@ func (s *ProjectService) CreateFeedback(
 		UserId: feedback.UserId,
 		Text:   feedback.Text,
 	}
-	if err := s.projectRepo.CreateFeedback(ctx, projectId, newFeedback); err != nil {
+	if err := s.projectRepo.CreateFeedback(ctx, newFeedback); err != nil {
 		return err
 	}
 	return nil

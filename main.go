@@ -58,12 +58,12 @@ func main() {
 		r.Post("/users/login", handler.Login)
 
 		r.Group(func(r chi.Router) {
-			r.Use(middlewares.JwtAuth)
+			// r.Use(middlewares.JwtAuth)
 
 			r.Get("/projects/{projectId}", handler.FindById)
+			r.Get("/projects", handler.GetAll)
 			r.Post("/projects", handler.Create)
 			r.Post("/projects/{projectId}/feedback", handler.CreateFeedback)
-			r.Put("/projects/{projectId}", handler.SetLike)
 			r.Put("/projects/{projectId}/update", handler.SetDescription)
 		})
 	})
